@@ -2,7 +2,7 @@
 
 Python module for summarizing environmental sound and metadata for scientific analysis.
 
-**If you are thinking about how you or your workgroup should store a large amount of sound data for subsequent analysis, then this module could be the answer. The module also provides methods to work with this data directly with the >opensoundscape<> module for analysis.**
+**If you are thinking about how you or your workgroup should store a large amount of sound data for subsequent analysis, then this module could be the answer. The module also provides methods to work with this data directly with the >opensoundscape< module for analysis.**
 
 ## Typical use cases and usefulness of a software solution for which the Python module will be made
 
