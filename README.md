@@ -28,7 +28,23 @@ This project is intended to address precisely this specificity in order to ensur
 
 First of all: This project specialises in sound records. Recordings of all other data are useful and often important. But we interpret sound data as primary data and all other recorded data as secondary ‘metadata’. There is of course no reason to reduce the content of this metadata to simple attributes if this data is not specifically recorded to be truly only metadata in the sense of attributes. However, this means that we concentrate on preparing our interfaces in such a way that they are particularly well suited for use with opensoundscape:
 
->Opensoundscape is the leading Python project for processing environmental audio data. 
+> Opensoundscape is the leading Python project for processing environmental audio data.
+
+## Databases for use with sample recording data
+
+> The core question is, how we should save our data to be optimal usable?
+
+### Sound files
+
+This is the common way in case there are not really special requirements.
+
+#### What about the file order?
+
+...
+
+#### What about the meta data?
+
+...
 
 ## Project State
 
