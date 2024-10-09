@@ -40,11 +40,11 @@ This is the common way in case there are not really special requirements.
 
 #### What about the file order?
 
-...
+... [Work in progress]
 
 #### What about the meta data?
 
-...
+... [Work in progress]
 
 ## Project State
 
