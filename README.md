@@ -2,7 +2,7 @@
 
 Python module for summarizing environmental sound (image) and metadata for scientific analysis.
 
-> Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".
+> **Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".**
 
 **If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** then this module could be the answer. The module also provides methods to work with this data directly with the [opensoundscape](https://opensoundscape.org) module for analysis.
 
@@ -36,27 +36,16 @@ This project is intended to address precisely this specificity in order to ensur
 
 First of all: This project specialises in sound records. Recordings of all other data are useful and often important. But we interpret sound data as primary data and all other recorded data as secondary "metadata". There is of course no reason to reduce the content of this metadata to simple attributes if this data is not specifically recorded to be truly only metadata in the sense of attributes. However, this means that we concentrate on preparing our interfaces in such a way that they are particularly well suited for use with opensoundscape:
 
-> Opensoundscape is the leading Python project for processing environmental audio data.
+> **Opensoundscape is the leading Python project for processing environmental audio data.**
 
 ### Images as meta or main data
 
 With regard to the question of metadata, image data plays a special role, however, since it can also be available as mass data and, in the context of audio data, it must also undergo similarly complex recognition algorithms. For this reason, it is planned at a later point in time to also organise image data within this framework in a comparable way and to organise it together with audio data in a common database.
 
-## Databases for use with sample recording data
+## Databases for use with fine-sampled recording data
 
-> The core question is, how we should save our data to be optimal usable?
+> **The core question over all is, how we should save our data to be optimal usable?**
 
-### Sound files
-
-This is the common way in case there are not really special requirements.
-
-#### What about the file order?
-
-... [Work in progress]
-
-#### What about the meta data?
-
-... [Work in progress]
 
 ## Project State
 
