@@ -46,7 +46,60 @@ With regard to the question of metadata, image data plays a special role, howeve
 
 > **The core question over all is, how we should save our data to be optimal usable?**
 
+Many people start by saving the recorded data in folder structures on their hard drive in the use cases considered here. The data is therefore stored in a tree-like structure. Alternatively, you could also store all the data in a single level and enter all the context information about how this data is related in tables. You can certainly do that. And supporters of SQL databases will do just that and possibly even enter the source data itself in special tables whose columns are defined as a so-called blob data type, where the raw data is copied into. These so-called relational databases are not a bad choice for pure machine data processing in many cases, since they usually have numerous search and filter methods implemented. However, the ‘relations’ of the data become difficult to understand even with simple relationships without the aid of detailed documentation. You can also create groupings and hierarchies here, but these are not visible in the tables at first glance.
 
-## Project State
+The folder structure mentioned above is quite different. The way the data is organised is immediately apparent. The nature of the relationship between the items can often be inferred from the names of the folders. Metadata can also be easily classified as separate files in such a structure. And if the data is not too complexly interwoven and the file and folder names are meaningful, such a structure can be self-explanatory. If you also insert a few README files in the appropriate places to describe the final context and details of the data, you actually have a self-explanatory database with such a folder structure.
 
-Development for a first version with a reasonable range of functions in progress.
+In principle, this is sufficient. And that is why it is often practised this way. If the data is also to be archived in a coherent manner, then it is compressed into a zip file (or another common format) and the content can be passed on in one piece. Doing it this way is perfectly legitimate and usually much more user-friendly than a solution with table-based databases.
+
+> **So we won't deviate from a tree-like data structure here.**
+
+However, the folder solution has two major disadvantages:
+
+1. The file system management of the operating system used is misused as a database. This is not what it was actually designed for.
+2. Such use, without standards or an API, represents a proprietary solution in which no access methods are defined to match the content of the stored data.
+
+The two issues are unrelated. In principle, it would be sufficient to standardise point 2 with a suitable framework. However, point 1 has a significant disadvantage: when dealing with large amounts of data, distributed across many individual files, the operating system's file system works relatively inefficiently. The data set transferred via compression as a whole unit must first be unzipped to enable direct access to the individual files. And the mechanisms in the operating system, in particular caching, are not necessarily ideal for use as a database system.
+
+This problem was identified many years ago, particularly in scientific applications, and the U.S. [National Center for Supercomputing Applications](https://en.wikipedia.org/wiki/National_Center_for_Supercomputing_Applications) (NSCA) made a name for itself many years ago by developing a so-called hierarchical data format (HDF) and a high-performance API to go with it. The establishment of the HDF Group as a non-profit company in 2006 professionalised this basis and led to the version HDF5 that is in use today. Professionalised means that there is
+
+* hardly a system with a better performance (based on the type of data that is typically stored in this system)
+* the library is available for an exceptionally large number of programming languages
+
+What type of data is the system optimised for?
+
+* records and metadata can be organised hierarchically, enabling a first level of self-explanation.
+* mass data in the form of tabular data, one-dimensional data blobs or arbitrary dimensional arrays, stored in the structure as data records
+* assignment of any amount of metadata to the tree-like structures and to the mass data
+* relationships between records can ultimately be defined based on structure and metadata
+* descriptions can also be attached to any object in the form of metadata
+
+Another optimisation is that access to the data can be indexed in data sets, so that it is not necessary to load a data set completely into the main memory in order to work with it. Furthermore, file access is optimised to such an extent that it is clearly superior in terms of performance to the above-described variant of storing the data in individual files in a file folder structure.
+
+However, HDF has a significant disadvantage compared to relational databases: it is not designed to process write operations from parallel processes! It is hardly useful as a database for reading AND writing data with high performance. The design of HDF essentially meets the requirements of our application for storing extensive source data and metadata. Using the same HDF5 database file to store the results of the recognition process is possible, but not performance-optimised. Unlike SQL databases, HDF5 does not have an engine that receives and cleverly sorts data queries and write requests. HDF is designed to combine (scientific) mass and source data with all its meta information and to standardise access to it.
+
+So in the end, it is designed to store our wildlife data together with all meta information in a structured and ‘easy to read’ way. If the analysis of the data from the HDF5 file produces relatively little data, or data that is well compressed in terms of content, it is of course no problem to store these results in the same HDF5 file. However, we are only considering the case of summarising the source data well structured and with metadata in an HDF5 file. With the following objectives:
+
+* data that belongs together is also stored together in a file
+* the fact that the data belongs together is self-evident from the structure and any ‘descriptive’ metadata that may have been added.
+* chunkwise access, even across data that was originally recorded in separate files
+* metadata describes the data (e.g. which physical unit is to be used or which conversion into a physical unit is necessary; e.g. with which device combination and at which location the data was generated; how the individual data series can be historically aligned, etc.)
+* the associated framework (developed and published here) provides standardisation of the data
+
+The goals show that reusability with the help of the HDF5 format and the framework published here is only possible if the framework itself is accepted and used as a de facto standard by many working groups. Without this effect, the good self-description of the data in the HDF5 files remains. However, each new data set also requires the development of new access methods.
+
+> **The main purpose of this project is therefore to establish the access methods as an API as a quasi-standard.**
+
+> **Accordingly, the project is open to contributors for continuous development and improvement.**
+
+### Explore any HDF5 files
+
+There are a number of tools for opening and exploring any HDF5 file. Generally speaking, there is no problem in recognising the structure and details of data sets and metadata in order to create suitable evaluation scripts. That said, exploring a previously unknown HDF5 file and writing suitable evaluation scripts from it is a straightforward process with a low barrier to entry.
+
+# Module Documentation
+
+[Development process is in progress. Documentation will follow later.]
+
+# Project State
+
+Development for a first version with a reasonable range of functions in progress. Image data are not yet considered.
