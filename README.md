@@ -103,3 +103,7 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 # Project State
 
 Development for a first version with a reasonable range of functions in progress. Image data are not yet considered.
+
+# Licence
+
+The MIT licence was chosen to be fully compatible with opensoundscape.
