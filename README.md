@@ -6,7 +6,7 @@ Python module for summarizing environmental sound (image) and metadata for scien
 
 **If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** then this module could be the answer. The module also provides methods to work with this data directly with the [opensoundscape](https://opensoundscape.org) module for analysis.
 
-## Typical use cases and usefulness of a software solution for which the Python module will be made
+## Typical use cases for which the Python module will be made
 
 ### Environmental sound recording
 
