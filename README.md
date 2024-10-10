@@ -1,4 +1,4 @@
-# environmentalSoundHdf
+# wildlifeRecords2Hdf (Python module)
 
 Python module for summarizing environmental sound and metadata for scientific analysis.
 
