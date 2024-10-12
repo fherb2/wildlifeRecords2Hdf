@@ -98,7 +98,90 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 
 # Module Documentation
 
-[Development process is in progress. Documentation will follow later.]
+[Development process and documentation are in progress. – **Not yet ready tu use!**]
+
+## HDF5 file structure and documentaion of groups, datasets and attributes
+
+### Structure (over all)
+
+```
+/ # root of HDF5 file
+|
++––/original_sound_files # group; – for all original sound files and their metadata and time depending order
+|  | # Group for "Byte-Blobs" of the original and unchanged sound files,
+|  | # some standardized and non-standardized meta data attributes, and all data needed in order to
+|  | # gernerate the original sound files from its byte blobs. The samples are completely unchanged
+|  | # and not resampled and not decompressed if the files were originally compressed.
+|  |
+|  +–– 1 # (first imported) dataset; numbered dataset of one file with all attributes
+|  |     # (for details, see dataset 'n')
+|  |
+|  +–– 2 # (second imported) dataset;                    –"–
+|  |
+|  +–– 3 # (third imported) dataset;                     –"–
+|  :
+|  +–– n # (last imported) dataset;                      –"–
+|  |   | # Documentation of all datasets 1 ... n:
+|  |   | # type: byte array 'uint8' (original byte stream of the complete sound file
+|  |   | #       with all headers, meta date, ... inside the file; more exactly: a
+|  |   | #       binary blob of the file byte stream)
+|  |   |
+|  |   +–– original_sound_file_name # attribute:str # without any path information
+|  |   |
+|  |   +–– ???NAME??? # pickle of dict { "format": SoundFile.format, 
+|  |   |                                 "sub-type": SoundFile.subtype, 
+|  |   |                                 "endian": SoundFile.endian,
+|  |   |                                 "sections": SoundFile.sections,
+|  |   |                                 "seekable": SoundFile.seekable }
+|  |   |   
+|  |   +–– file_size_bytes # attribute:int # size of the file by using 'os.stat(original
+|  |   |                                     sound file).st_size'
+|  |   +–– content_hash # attribute:int # Python hash value over all bytes of the file;
+|  |   |                                # usable to make a check if file content of a new
+|  |   |                                # import yet exists
+|  |   +–– sampling_rate # attribute:int # sampling rate in samples per second
+|  |   |
+|  |   +–– start_time # attribut:[localized datetime.datetime object like
+|  |   |                          'datetime(2020,4,4,10,25,15,tzinfo=pytz.UTC)']
+```
+
+## Precise interpretations of periods of time
+
+### Time zones and daylight saving time
+
+To take this into account, when importing files, the interpretation of the timestamp is queried in addition to the timestamp itself. This includes which time zone is to be used and whether the timestamp provided is to be interpreted as daylight saving time if it falls within the daylight saving time period for the time zone in question.
+
+### Leap seconds and time drift
+
+Everything in this section is relevant when we process recordings that took place continuously but are split into individual files and the time of the first sample in each file is known. (This is not always an exact precondition: if the file timestamp is used, it is not the exact time when the first sample in the file took place, but when the file was created. Both values can differ by a few seconds.
+
+The assumptions and associated solutions discussed below are therefore also only approximations. If these approximations are considered to be too ‘rough’ or even inadmissible in a specific application, alternative solutions are required, which often arise from the special case under consideration.
+
+If the actual alignment of the Earth with the Sun deviates by more than half a second, leap seconds are inserted into or removed from a minute. The time of such a correction occurs at midnight at the turn of the year or at midnight at the midpoint of the year.
+
+For a recording system that is running, the following cases arise:
+
+1) The recording system uses an NTP service. Usually, the insertion or removal of a second by the system's NTP service is done ‘skulking’ by slightly increasing or decreasing the system clock by a small amount and for a certain time. All minutes, even in such a case where the leap second is taking place, will still have exactly 60 seconds.
+2) The recording system uses an NTP service. In special cases, the NTP service can be configured to actually insert an additional 61th second in the relevant minute or it switches to the next minut after 59 second. A lot of software can't handle a minute lasting 61 seconds, which is why this is more of an exception.
+3) The recording system has a clock that is not connected to an NTP time server (e.g. via network or GPS). During the entire recording period, the timestamp depends on the time when the recording system's clock was synchronised.
+
+In many cases, the fact that a leap second takes place is not important. But what if a user has a use case where this could cause database consistency issues? This module should therefore at least take this special case into account. The best strategy for solving the problem also depends on the length of a continuous recording.
+
+1. We assume that the sample clock is quite accurate, but that the recording is only a few seconds or a very less minutes long. To combine these samples of the relevant file with the immediately following samples of the next file, a resampling with a time stretch or compression would result in an impermissible frequency shift or (with frequency-preserving stretching and compression) an impermissible change in the timing of sounds. A sensible approach could be not to change the timing, but to bridge the sound with silence between the file in question and the immediately following file.
+2. Now, let's assume that we have longer recordings per file. If there is an extra second or a second is missing, we have a similar case to when the ADC's sampling clock is not absolutely exact. We can't really distinguish here whether a leap second has occurred or the sample clock is slightly off. Unless, of course, we have the fact that a leap second has occurred as meta information available for the file in question. In this case, we cannot tell whether we might get a frequency shift or a gap in time if we apply the exact sampling clock.
+3. What we do know is that a leap second occurs relatively rarely. As a rule, we are dealing with deviations of the actual sampling frequency during recording from the nominal value. Or with a difference in time between the first sample and the timestamp of the file creation. However, the latter is prevented in those recording systems that store the timestamp for the first sample of a file separately and do not abuse the file system driver function, which records when the associated file was created. So, with regard to the mass of data that we use to recognise biologically interesting details, we make the smallest error if we assume that the sampling frequency of the recording does not exactly match the nominal value. The fact that a leap second is occasionally inserted every few years can be neglected for plausible reasons.
+   The appropriate strategy would therefore be to assume that the presumably inexact sampling frequency is to be corrected and that we therefore resample the original data in such a way that the correct time interval of the recording is reproduced in a file. The corresponding frequency shift corresponds to the value that was incorrectly encoded by the not quite exact beat of the ADC. We therefore shift the samples to the exact time base without obtaining an error in the frequency range. The strategy would only lead to a frequency shift in the case of a rare leap second.
+   **We will therefore ignore the leap second.** If someone wants to take the leap second into account in their own preprocessing of the data, please refer to the *astropy.time* module. This module can be used to calculate timestamp differences taking a leap second into account.
+
+### Time drift
+
+As introduced in the previous section, there are basically two causes of a time offset between the samples of different files:
+
+1. A sound data file's creation time is used as the timestamp. This time does not have to correspond exactly to the time of the first sample.
+2. The actual frequency of the ADC, which generates the samples from the analogue sound data, does not have to match the assumed nominal frequency stored with the file. Deviations in the lower percentage range are possible. This fact is often overlooked if files are sampled and saved, but it is taken into account in media streaming tools such as gstreamer or ffmpeg.
+
+When the recording in a file is finished and a new file is automatically created to store the next samples, it may happen that the effort of this file change is so great that samples have to be discarded and there is actually a gap in the data. In many cases this does not happen and the data is consecutive. Even if the timestamps of the files suggest otherwise. However, there may also be constellations where this condition is not met. We will support both options by allowing you to select whether the samples can be considered consecutive or whether a pause is to be expected when reading the samples. For the second case, methods will be implemented to concatenate files by detecting zero crossings and adding a few samples of complete silence if necessary to avoid acoustic artefacts (cracking) when transitioning from one file to the next. This is especially important if slicing is used to analyse the sounds and the synchronisation is not exactly at the start and end of the file.
+The aim is to allow the evaluation to be carried out in time slices that were independent of the time slices present during sound data recording, especially in the event that the database only contains sound files that represent an uninterrupted data recording across multiple files. Accordingly, overlaps are also possible across files during the evaluation.
 
 # Project State
 
