@@ -141,11 +141,44 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 |  |   |                                # import yet exists
 |  |   +–– sampling_rate # attribute:int # sampling rate in samples per second
 |  |   |
-|  |   +–– start_time # attribut:[localized datetime.datetime object like
-|  |   |                          'datetime(2020,4,4,10,25,15,tzinfo=pytz.UTC)']
+|  |   +–– start_time_dt # attribut:bytestream # time stamp of the first sample
+|  |   |                                       # as pickle.dump of a localizied datetime.datetime object
+
 ```
 
-## Precise interpretations of periods of time
+## Precise interpretations of time and periods of time
+
+### In less words
+
+##### Metainformation of sound recording data (original sound file data copy)
+
+1) **Machine coded time stamps and time differences as a unique reference**
+
+* For the exactly encoded **time stamps** of the recorded files, we use **POSIX time with signed integer 64 Bit with the time base of number of nano seconds since 1.1.1970 00:00:00 UTC**. This has the best support over a width range of programming languages and system time call functions. And the resolution for selected recording samples is exactly enough. Note: POSIX times doesn't include leap seconds.
+* For **time differences** like the length of a recording, we use **nanoseconds** as an integer.
+
+2) **Human readable time stamps**
+
+* Additionally, we write time stamps also in a human readable format, so we can get the information about the recorded data also with any HDF5 visualisation tool.
+
+3) **Python pickled datetime.datetime**
+
+* Additional, we write the **timestamps as bytestream of a pickled Python datetime.datetime objects** and **time differences as byte stream of a pickled Python datetime.timedelta objects**. So the import can hapen by unpickling these byte streams only.
+
+4) **Daylight and time zones**
+
+   An universal time stamp code can be not enought for schientific results. At least, we need the time zone where the data was recorded. Better, we have also the coordinates of the recording:
+
+* The Python pickled **datetime.datetime** contains **time zone information**.
+* Additionally, we save the **geografic cordinates as meta data**.
+
+##### TimeTable dataset for analysis of the recorded data
+
+There is a special time table dataset what is created and expanded during the import of the original sound data samples. **This is created as intermediate layer for analysis procedures only.**
+
+During the import, a special analysing procedure tries to recognise the immediate sequence of sound files. The documentation for this is at an other place. But what we should know here: These time table concatenates sequential "original" file samples to a continuous audio stream. The source file data will be never changed. But with this table we can create an intermediate layer to use the record data independing of the size and slicing of the files what contains these data.
+
+Since this table ist prepared for automatic concatenating of samples coming from different original sound files by the Python program, we use datetime.datetime and datetime.timedelta as pickled Python objects only. A humand readable format is not needed in this case.
 
 ### Time zones and daylight saving time
 
