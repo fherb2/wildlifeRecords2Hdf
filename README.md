@@ -1,10 +1,10 @@
 # wildlifeRecords2Hdf (Python module)
 
-Python module for summarizing environmental sound (image) and metadata for scientific analysis.
+**Python module for summarizing environmental sound (image) and metadata for scientific analysis.**
 
 > **Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".**
 
-**If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** then this module could be the answer. The module also provides methods to work with this data directly with the [opensoundscape](https://opensoundscape.org) module for analysis.
+**If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** **then this module could be the answer.** **The module also provides methods to work with this data directly with the [opensoundscape](https://opensoundscape.org) module for analysis.**
 
 ## Typical use cases for which this Python module will be made
 
@@ -44,7 +44,7 @@ With regard to the question of metadata, image data plays a special role, howeve
 
 ## Databases for use with fine-sampled recording data
 
-> **The core question over all is, how we should save our data to be optimal usable?**
+> **The core question over all is, how we should save our data to be optimal usable over a long time?**
 
 Many people start by saving the recorded data in folder structures on their hard drive in the use cases considered here. The data is therefore stored in a tree-like structure. Alternatively, you could also store all the data in a single level and enter all the context information about how this data is related in tables. You can certainly do that. And supporters of SQL databases will do just that and possibly even enter the source data itself in special tables whose columns are defined as a so-called blob data type, where the raw data is copied into. These so-called relational databases are not a bad choice for pure machine data processing in many cases, since they usually have numerous search and filter methods implemented. However, the ‘relations’ of the data become difficult to understand even with simple relationships without the aid of detailed documentation. You can also create groupings and hierarchies here, but these are not visible in the tables at first glance.
 
