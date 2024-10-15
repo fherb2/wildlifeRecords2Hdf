@@ -128,12 +128,11 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 |  |   |
 |  |   +–– original_sound_file_name # attribute:str # without any path information
 |  |   |
-|  |   +–– ???NAME??? # pickle of dict { "format": SoundFile.format, 
-|  |   |                                 "sub-type": SoundFile.subtype, 
-|  |   |                                 "endian": SoundFile.endian,
-|  |   |                                 "sections": SoundFile.sections,
-|  |   |                                 "seekable": SoundFile.seekable }
-|  |   |   
+|  |   +–– ???NAME??? # attribute:pickle-of-dict { "format": SoundFile.format, 
+|  |   |                                           "sub-type": SoundFile.subtype, 
+|  |   |                                           "endian": SoundFile.endian,
+|  |   |                                           "sections": SoundFile.sections,
+|  |   |                                           "seekable": SoundFile.seekable }
 |  |   +–– file_size_bytes # attribute:int # size of the file by using 'os.stat(original
 |  |   |                                     sound file).st_size'
 |  |   +–– content_hash # attribute:int # Python hash value over all bytes of the file;
@@ -141,9 +140,24 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 |  |   |                                # import yet exists
 |  |   +–– sampling_rate # attribute:int # sampling rate in samples per second
 |  |   |
-|  |   +–– start_time_dt # attribut:bytestream # time stamp of the first sample
-|  |   |                                       # as pickle.dump of a localizied datetime.datetime object
-
+|  |   +–– no_channels # attribute:int # number of audio channels; common are 1 or 2; but can be more by
+|  |   |                               # using of microphone arrays
+|  |   +–– start_time_dt # attribut:bytestream # Time stamp of the first sample as pickle.dump
+|  |   |                                       # of a localizied Python datetime.datetime object.
+|  |   |                                       # Note: The resolution is micro second. This is
+|  |   |                                       #       sufficient for acoustic phases evaluation,
+|  |   |                                       #       since the equivalent is a path length of 
+|  |   |                                       #       only 0,334mm in air.
+|  |   +–– start_time_iso861_localizied # attribute:str # Same as start_time_dt, but human readable.
+|  |   |                                       # created with: 
+|  |   |                                       # start_time_dt.strftime('%Y-%m-%d %H:%M:%S') + \
+|  |   |                                       #                        f" {start_time_dt.tzinfo.key}"
+|  |   +–– no_samples_per_channel # attribute:int # number of samples per channel in file
+|  |   |                          # The (single or multi channel) samples have to be equidistant, so that
+|  |   |                          # the the time stamp of the last sample is:
+|  |   |                          # start_time_dt + (no_samples_per_channel – 1)/sampling_rate
+|  |   +–– meta_dict # attribute:pickle-of-dict # Some user or case depending meta information about file content.
+|  |   |                                        # This includes audio file information like artist, song name... 
 ```
 
 ## Precise interpretations of time and periods of time
