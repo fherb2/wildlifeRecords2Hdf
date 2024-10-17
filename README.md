@@ -105,62 +105,124 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 ### Structure (over all)
 
 ```
+Designation regarding optional and mandatory attributes:
+  [O] - optional
+  [M] - mandatory
+
+Structure of the HDF5 file (part for original sound file data and metadata). Following we
+decribe only our "standard". Everybode can add any other components to the HDF5 file. This
+"standard" has to be implemented to can be found by the methodes of the module.
+------------------------------------------------------------------------------------------
+
 / # root of HDF5 file
 |
-+––/original_sound_files # group; – for all original sound files and their metadata and time depending order
-|  | # Group for "Byte-Blobs" of the original and unchanged sound files,
-|  | # some standardized and non-standardized meta data attributes, and all data needed in order to
-|  | # gernerate the original sound files from its byte blobs. The samples are completely unchanged
-|  | # and not resampled and not decompressed if the files were originally compressed.
++––/original_sound_files # group # Contains all original sound files as file-byte copied data sets and
+|  |          # their metadata.
+|  |          #
+|  |          # Group for "Byte-Blobs" of the original and unchanged sound files, some standardized
+|  |          # and non-standardized meta data attributes, and all data needed in order to gernerate
+|  |          # the original sound files from its byte blobs again. The samples are completely
+|  |          # unchanged and not resampled and not decompressed if the files were originally
+|  |          # compressed. So: A truly pure byte-for-byte copy of the sound file.
 |  |
-|  +–– 1 # (first imported) dataset; numbered dataset of one file with all attributes
-|  |     # (for details, see dataset 'n')
+|  +–– 1 # (first imported sound file) dataset  # numbered dataset of one file with all attributes
+|  |                                            # (for details, see dataset 'n')
 |  |
-|  +–– 2 # (second imported) dataset;                    –"–
+|  +–– 2 # (second imported sound file) dataset #                    –"–
 |  |
-|  +–– 3 # (third imported) dataset;                     –"–
+|  +–– 3 # (third imported sound file) dataset  #                    –"–
 |  :
-|  +–– n # (last imported) dataset;                      –"–
-|  |   | # Documentation of all datasets 1 ... n:
-|  |   | # type: byte array 'uint8' (original byte stream of the complete sound file
-|  |   | #       with all headers, meta date, ... inside the file; more exactly: a
-|  |   | #       binary blob of the file byte stream)
+|  +–– n # (last imported sound file) dataset   #                    –"–
+|  |   |        # Documentation of all datasets 1 ... n:
+|  |   |        # type: byte array 'uint8' (original byte stream of the complete sound file
+|  |   |        #       with all headers, meta date, ... inside the file; more exactly: a
+|  |   |        #       binary blob of the file byte stream)
 |  |   |
-|  |   +–– original_sound_file_name # attribute:str # without any path information
+|  |   +–– original_sound_file_name # [M] attribute:str # without any path information
 |  |   |
-|  |   +–– ???NAME??? # attribute:pickle-of-dict { "format": SoundFile.format, 
-|  |   |                                           "sub-type": SoundFile.subtype, 
-|  |   |                                           "endian": SoundFile.endian,
-|  |   |                                           "sections": SoundFile.sections,
-|  |   |                                           "seekable": SoundFile.seekable }
-|  |   +–– file_size_bytes # attribute:int # size of the file by using 'os.stat(original
-|  |   |                                     sound file).st_size'
-|  |   +–– content_hash # attribute:int # Python hash value over all bytes of the file;
-|  |   |                                # usable to make a check if file content of a new
-|  |   |                                # import yet exists
-|  |   +–– sampling_rate # attribute:int # sampling rate in samples per second
+|  |   +–– ???NAME??? # [M] attribute:pickle-of-dict { "format": SoundFile.format, 
+|  |   |                                               "sub-type": SoundFile.subtype, 
+|  |   |                                               "endian": SoundFile.endian,
+|  |   |                                               "sections": SoundFile.sections,
+|  |   |                                               "seekable": SoundFile.seekable }
+|  |   +–– file_size_bytes # [M] attribute:int # size of the file by using 'os.stat(original
+|  |   |                                       # sound file).st_size'
+|  |   +–– content_hash # [M] attribute:int # Python hash value over all bytes of the file;
+|  |   |                                    # usable to make a check if file content of a new
+|  |   |                                    # import yet exists
+|  |   +–– sampling_rate # [M] attribute:int # sampling rate in samples per second
 |  |   |
-|  |   +–– no_channels # attribute:int # number of audio channels; common are 1 or 2; but can be more by
-|  |   |                               # using of microphone arrays
-|  |   +–– start_time_dt # attribut:bytestream # Time stamp of the first sample as pickle.dump
-|  |   |                                       # of a localizied Python datetime.datetime object.
-|  |   |                                       # Note: The resolution is micro second. This is
-|  |   |                                       #       sufficient for acoustic phases evaluation,
-|  |   |                                       #       since the equivalent is a path length of 
-|  |   |                                       #       only 0,334mm in air.
-|  |   +–– start_time_iso861_localizied # attribute:str # Same as start_time_dt, but human readable.
+|  |   +–– no_channels # [M] attribute:int # number of audio channels; common are 1 or 2; but can be more by
+|  |   |                                   # using of microphone arrays
+|  |   +–– start_time_dt # [M] attribut:bytestream # Time stamp of the first sample as pickle.dump
+|  |   |                                           # of a localizied Python datetime.datetime object.
+|  |   |                                           # Note: The resolution is micro second. This is
+|  |   |                                           #       sufficient for acoustic phases evaluation,
+|  |   |                                           #       since the equivalent is a path length of 
+|  |   |                                           #       only 0,334mm in air.
+|  |   +–– start_time_iso861_localizied # [M] attribute:str # Same as start_time_dt, but human readable.
 |  |   |                                       # created with: 
 |  |   |                                       # start_time_dt.strftime('%Y-%m-%d %H:%M:%S') + \
 |  |   |                                       #                        f" {start_time_dt.tzinfo.key}"
-|  |   +–– no_samples_per_channel # attribute:int # number of samples per channel in file
+|  |   +–– no_samples_per_channel # [M] attribute:int # number of samples per channel in file
 |  |   |                          # The (single or multi channel) samples have to be equidistant, so that
 |  |   |                          # the the time stamp of the last sample is:
 |  |   |                          # start_time_dt + (no_samples_per_channel – 1)/sampling_rate
-|  |   +–– meta_dict # attribute:pickle-of-dict # Some user or case depending meta information about file content.
-|  |   |                                        # This includes audio file information like artist, song name... 
+|  |   +–– maximum_timeshift_percent # [M] attribute:float
+|  |   |                             # This value is important for the continuity of individual files
+|  |   |                             # to form a continuous sound and is evaluated to summarise the
+|  |   |                             # files that immediately follow each other in time in the 
+|  |   |                             # ‘/concatenation’ group.
+|  |   |                             # Background and configuration of this value: Please, see the
+|  |   |                             # documentation, chapter "maximum_timeshift_percent".
+|  |   |
+|  |   |   # Following all file or user depending meta information in two versions:
+|  |   |   #    1) as Python dictionary (pickle serialized)
+|  |   |   #    2) as dataset attribute: Each individual piece of meta-information is also listed below
+|  |   |   #       as an attribute with str data type, so that it is also human-readable when looking
+|  |   |   #       into the database file. Each meta information is named as "meta_" plus the name of the
+|  |   |   #       given meta values by the user.
+|  |   +–– meta_dict #  [M] attribute:pickle-of-dict # Some user or case depending meta information about
+|  |   |                                        # file content. This includes audio file information like
+|  |   |                                        # artist, song name... 
+|  |   |                                        # This attribute is added my the import methodes. In case
+|  |   |                                        # there are no such meta information, this contains a
+|  |   |                                        # pickled empty dictionary.
+|  |   |
+|  |   +–– meta_...  # [O] attribute:str # Added bei the import methode if there is at least one meta
+|  |   |                                 # information value.
+|  |   +–– meta_...  # [O] attribute:str # Added bei the import methode if there are at least two meta
+|  |   |                                 # information values.
+|  |   :...          # and so on...
+|  |
+|  |+––/concatenations # group # [O] Contains one or more data sets that describe which sound file data sets
+|      |                       # can be chained together immediately in time.
+|      |                       # These data sets are generated by a separate method independing on the import
+|      |                       # of sound file datas.
+|      |                       # The presence of the group /concatenations is optional. However, if it is
+|      |                       # present, all files from /original_sound_files must be integrated into the data 
+|      |                       # sets inside this group accordingly.
+|      |                       # In practical terms, this means that for evaluation and recognition processes:
+|      |                       # If the group /concatenations is missing, the individual sound files in
+|      |                       # /original_sound_files must be processed. However, if the group /concatenations
+|      |                       # is present, the sounds are evaluated in a concatenated form.
+|      |                       # Methodes to use concatenated forms like single file are part of the module.
+|      +––1  # dataset # [M] The dataset number "1" in this case is identical to the data set number 1 in 
+|      |               #     "/original_sound_files" where the associated sample series starts.
+|      |               #     The coding of the association of consecutive sound data in this data set is
+|      |               #     documented separately.
+|      :  
+|      |  # (following: number '35' in this documentation is an example only)
+|      |––35 # dataset # [M] That's an example of a new sample series, starting with data set number "35" in
+|      |               #     "/original_sound_files" where the associated sample series starts.
+|      |               #     The coding of the association of consecutive sound data in this data set is
+|      |               #     documented separately.
+|      :...
+|
+| # You are free to use all HDF5 elements to save additional meta information or additional primary information!
 ```
 
-## Precise interpretations of time and periods of time
+## Precise interpretations of samples, time and periods of time
 
 ### In less words
 
@@ -230,9 +292,23 @@ As introduced in the previous section, there are basically two causes of a time 
 When the recording in a file is finished and a new file is automatically created to store the next samples, it may happen that the effort of this file change is so great that samples have to be discarded and there is actually a gap in the data. In many cases this does not happen and the data is consecutive. Even if the timestamps of the files suggest otherwise. However, there may also be constellations where this condition is not met. We will support both options by allowing you to select whether the samples can be considered consecutive or whether a pause is to be expected when reading the samples. For the second case, methods will be implemented to concatenate files by detecting zero crossings and adding a few samples of complete silence if necessary to avoid acoustic artefacts (cracking) when transitioning from one file to the next. This is especially important if slicing is used to analyse the sounds and the synchronisation is not exactly at the start and end of the file.
 The aim is to allow the evaluation to be carried out in time slices that were independent of the time slices present during sound data recording, especially in the event that the database only contains sound files that represent an uninterrupted data recording across multiple files. Accordingly, overlaps are also possible across files during the evaluation.
 
+### maximum_timeshift_percent
+
+Audio data are sampled by an analogue-digital converter (ADC) in the sound device. The frequency of the sampling is specified by driver configurations. However, the sample clock is generated by an oscillator in the audio device that is not synchronised to the system clock and therefore not synchronised to an NTP server. The actual clock generated by the oscillator depends on the individual sound device (electronic component tolerances) and the temperature of the electronic components involved in the clock generation. Apart from the fact that there are also time shifts between the start time measured in the system time and the actual time of the first – and, if ultimately not even the exact system time of the start of the first sample is stored, but the timestamp of the creation of the sound file is used as a reference by storing the first sample, then it is clear that time differences arise here that are considerably greater than the time between two samples.
+If we later want to combine the samples of the consecutive files into one uninterrupted sound, for example, to let the chunks run through the analysis independently of the actual individual file beginnings and file ends across all samples, then we will naturally run into problems with the time alignment of the samples over longer uninterrupted recording periods.
+To restore the missing synchronicity of the ADC over long periods of time when recording with the actual system time (at the end the atomic time, via which the system synchronises itself using NTP), the samples must be corrected over long recording periods with regard to time. This results in new samples that remains synchronised with the running (NTP-synchronised) time over a longer period of time. If the resampling is not carried out, the frequencies in the sound will shift slightly because the playback clock does not correspond exactly to the recording clock. Since we know that the system clock has very good long-term stability due to the NTP-based mechanism, but that the ADC's sample clock does not, this means that the sound from the recorded samples has to be converted into a sound that corresponds to sample times that are very accurate and permanently corrected with atomic time using NTP.
+Attention: None of this applies if the entire recording system itself does not have NTP synchronisation. Here, too, the sample clock is slightly asynchronous with the actual time. However, the system time itself is also not particularly stable, which means that the time stamps are also created asynchronously with atomic time. Such conditions are present, for example, in microcontrollers. For example, the Audiomoth device. – Since there is basically no synchronicity in this case, it does no harm if data from such systems are also treated equally, like systems with system clock synchronisation to an atomic clock.
+If we want to put together uninterrupted samples in consecutive files, we can basically ignore this. However, there are scenarios where gaps in the samples actually occur. Power failures, reboots... The reasons for this do not matter. But the fact is that the files may actually contain gaps in the recording where concatenating the samples makes no sense and concatenating them would create an artefact in the form of an acoustic signal. Also, time allocations no longer match.
+If we want samples that immediately follow one another and are stored in different audio files to be reconnected to a continuous audio data stream, we have to recognise whether or not there is actually a continuous audio stream. And that is under the premise that the sampling frequency and real time do not run absolutely parallel.
+The maximum_timeshift_percent parameter is used to decide whether two consecutive sound files can be concatenated or not. It is used to determine whether the files are (most likely) an uninterrupted sequence of sampling data or whether there is obviously a gap in the sampling data and therefore the files should not be concatenated.
+Inside the application it must take into account what needs to be used as a timestamp. If the actual time of the first sample of the files was stored very accurately, the theoretically possible deviation of the ADC sample clock can be entered into this parameter. However, if the timestamp itself can also have a significant deviation from the first sample, this must also be included in the tolerable range, i.e. the parameter maximum_timeshift_percent.
+If you want to use the concatenation functionality in the HDF5 file under /original_sound_files/concatenation, then select a reasonable value for this percentage.
+
 # Project State
 
-Development for a first version with a reasonable range of functions in progress. Image data are not yet considered.
+Documentation ins progress. Since a pilot implementation was developed, these documentation will be used to convert these pilot implementation into a final implementation as defined here and now.
+
+Development for a first version with a reasonable range of functions in progress (based on a pilot implementation). Image data are not yet considered.
 
 # Licence
 
