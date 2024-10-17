@@ -1,10 +1,10 @@
 # wildlifeRecords2Hdf (Python module)
 
-**Python module for summarizing environmental sound (image) and metadata for scientific analysis.**
+**Python module for summarizing environmental sounds (or/and images) and metadata for scientific analysis.**
 
 > **Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".**
 
-**If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** **then this module could be the answer.** **The module also provides methods to work with this data directly with the [opensoundscape](https://opensoundscape.org) module for analysis.**
+**If you are thinking about how you or your workgroup should store a large amount of sound or/and image data for subsequent analysis,** **then this module could be the answer.** **The module also provides methods to work with these data directly with the [opensoundscape](https://opensoundscape.org) module for analysis. And it includes importing methodes.**
 
 ## Typical use cases for which this Python module will be made
 
