@@ -100,7 +100,7 @@ There are a number of tools for opening and exploring any HDF5 file. Generally s
 
 [Development process and documentation are in progress. – **Not yet ready tu use!**]
 
-## HDF5 file structure and documentaion of groups, datasets and attributes
+## HDF5 file structure and documentation of groups, datasets and attributes
 
 ### Structure (over all)
 
