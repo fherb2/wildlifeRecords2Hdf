@@ -109,9 +109,12 @@ Designation regarding optional and mandatory attributes:
   [O] - optional
   [M] - mandatory
 
-Structure of the HDF5 file (part for original sound file data and metadata). Following we
-decribe only our "standard". Everybode can add any other components to the HDF5 file. This
-"standard" has to be implemented to can be found by the methodes of the module.
+Structure of the HDF5 file (part for original sound file data and metadata). Following, we
+decribe only our minimum "standard". Everybode can add any other components to the HDF5 file.
+This "standard" has to be implemented to can be found by the methodes of the module. However,
+additional elements within the file (groups, data sets or attributes) are possible and do 
+not pose any risk whatever in relation to the functioning of the module. The approach is 
+thus open to any extensions.
 ------------------------------------------------------------------------------------------
 
 / # root of HDF5 file
