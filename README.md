@@ -119,17 +119,18 @@ thus open to any extensions.
 
 / # root of HDF5 file
 |
-+––/original_sound_files # group # Contains all original sound files as file-byte copied data sets and
-|  |          # their metadata.
++––/original_sound_files # group # Contains all original sound files as file-byte copied data
+|  |          # sets and their metadata.
 |  |          #
-|  |          # Group for "Byte-Blobs" of the original and unchanged sound files, some standardized
-|  |          # and non-standardized meta data attributes, and all data needed in order to gernerate
-|  |          # the original sound files from its byte blobs again. The samples are completely
-|  |          # unchanged and not resampled and not decompressed if the files were originally
-|  |          # compressed. So: A truly pure byte-for-byte copy of the sound file.
+|  |          # Group for "Byte-Blobs" of the original and unchanged sound files, some
+|  |          # standardized and non-standardized meta data attributes, and all data needed
+|  |          # in order to gernerate the original sound files from its byte blobs again.
+|  |          # The samples are completely unchanged and not resampled and not decompressed
+|  |          # if the files were originally compressed. So: A truly pure byte-for-byte copy
+|  |          # of the sound file.
 |  |
-|  +–– 1 # (first imported sound file) dataset  # numbered dataset of one file with all attributes
-|  |                                            # (for details, see dataset 'n')
+|  +–– 1 # (first imported sound file) dataset  # numbered dataset of one file with all 
+|  |                                            # attributes (for details, see dataset 'n')
 |  |
 |  +–– 2 # (second imported sound file) dataset #                    –"–
 |  |
@@ -151,12 +152,12 @@ thus open to any extensions.
 |  |   +–– file_size_bytes # [M] attribute:int # size of the file by using 'os.stat(original
 |  |   |                                       # sound file).st_size'
 |  |   +–– content_hash # [M] attribute:int # Python hash value over all bytes of the file;
-|  |   |                                    # usable to make a check if file content of a new
-|  |   |                                    # import yet exists
+|  |   |                                    # usable to make a check if file content of a
+|  |   |                                    # new import yet exists
 |  |   +–– sampling_rate # [M] attribute:int # sampling rate in samples per second
 |  |   |
-|  |   +–– no_channels # [M] attribute:int # number of audio channels; common are 1 or 2; but can be more by
-|  |   |                                   # using of microphone arrays
+|  |   +–– no_channels # [M] attribute:int # number of audio channels; common are 1 or 2; but
+|  |   |                                   # can be more by using of microphone arrays
 |  |   +–– start_time_dt # [M] attribut:bytestream # Time stamp of the first sample as pickle.dump
 |  |   |                                           # of a localizied Python datetime.datetime object.
 |  |   |                                           # Note: The resolution is micro second. This is
