@@ -145,10 +145,12 @@ thus open to any extensions.
 |  |   +–– original_sound_file_name # [M] attribute:str # without any path information
 |  |   |
 |  |   +–– ???NAME??? # [M] attribute:pickle-of-dict { "format": SoundFile.format, 
-|  |   |                                               "sub-type": SoundFile.subtype, 
-|  |   |                                               "endian": SoundFile.endian,
-|  |   |                                               "sections": SoundFile.sections,
-|  |   |                                               "seekable": SoundFile.seekable }
+|  |   |              #                                "sub-type": SoundFile.subtype, 
+|  |   |              #                                "endian": SoundFile.endian,
+|  |   |              #                                "sections": SoundFile.sections,
+|  |   |              #                                "seekable": SoundFile.seekable }
+|  |   |              # Parameters used by Python to understand the sound file byte stream
+|  |   |              # and to recreate the original sound files from this byte stream.
 |  |   +–– file_size_bytes # [M] attribute:int # size of the file by using 'os.stat(original
 |  |   |                                       # sound file).st_size'
 |  |   +–– content_hash # [M] attribute:int # Python hash value over all bytes of the file;
