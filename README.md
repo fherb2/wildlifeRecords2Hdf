@@ -10,9 +10,9 @@
 
 ### Environmental sound recording
 
-Environmental sound recording is a frequently used application in field research to detect the presence of species in a certain area or to monitor their presence in the long term if they make themselves heard. This is common for the group of birds (also night bird migration), for bats and sometimes for acoustically active insects such as cicadas. In areas where other animal groups, such as monkeys, also frequently make their presence and activity known through vocalizations, these methods can also be used for such animal groups.
+Environmental sound recording is a frequently used application in field research to detect the presence of species in a certain area or to monitor their presence in the long term if they make themselves heard. This is common for the group of birds (also night bird migration), for bats and sometimes for acoustically active insects such as cicadas. In areas where other animal groups, such as monkeys, also frequently make their presence and activity known through vocalizations, these methods is in use, of course.
 
-A 24/7 recording will yield a lot of sample data. For bird calls and songs as example, up to 12 kHz and 4-fold oversampling is useful, so 48 kS/s and a resolution of 16 bits would be a good choice: The data volume per month is 1/4 TByte. It is commen that recorder systems split the data into smaller chunks to protect it against a variety of error cases, from write errors to power outages. Splitting into 15-minute chunks would give you 86.4 MB per file and 2880 files per month. With two-channel audio for better extraction of simultaneously calling or singing individuals (as a later pre-processing step), it results in half a terrabyte per month and field recorder. This data volume is of course somewhat lower if specialised devices such as AudioMoth are used, which can only record time segments across the day.
+A 24/7 recording will yield a lot of sample data. For bird calls and songs as example, up to 12 kHz and 4-fold oversampling is useful, so 48 kS/s and a resolution of 16 bits would be a good choice: The data volume per month is 1/4 TByte. It is commen that recorder systems split the data into smaller chunks to protect it against a variety of error cases, from write errors to power outages and so on. Splitting into 15-minute chunks would give you 86.4 MB per file and 2880 files per month. With two-channel audio (or some mor channels) for better extraction of simultaneously calling or singing individuals (as a later pre-processing step), it results in half a terrabyte per month and field recorder or more. This data volume is of course somewhat lower if specialised devices such as AudioMoth are used, which can only record time segments across the day.
 
 At the latest when you use several such field recorders and perhaps also want to combine the data with metadata, such as the current weather, the question arises as to how this data can be meaningfully merged and stored. This is especially true if you want to preserve the data for future tasks. At the latest when you use several such field recorders and perhaps also want to combine the data with metadata, such as the current weather, the question arises as to how you can reasonably bring together and store this data
 
@@ -22,7 +22,7 @@ The objectives of field research can vary considerably, which is why it can be n
 
 ### Pragmatic solutions, their problems and the aim of the project
 
-Not every scientific working group has the opportunity to appoint an experienced software-savvy data specialist as a member of their group. Depending on the experience of the members of the working group, pragmatic solutions are chosen to summarize the data from the data recorders. The primary, minimum goal is to summarize the data in such a way that it can be used for at least a single analysis with subsequent publication of findings. The consequence of this is that the data is lost for subsequent use at a later date or by other working groups if not at least one member of the original working group is not available to help interpret the data files. This is a common and recurring problem in science.
+Not every scientific working group has the opportunity to appoint an experienced data specialist with software expertise as a member of their group. Depending on the experience of the members of the working group, pragmatic solutions are chosen to summarize the data from the data recorders. The primary, minimum goal is to summarize the data in such a way that it can be used for at least a single analysis with subsequent publication of discoveries. The consequence of this is that the data is lost for subsequent use at a later date or by other working groups if not at least one member of the original working group is not available to help interpret the data files. This is a common and recurring problem in science.
 
 While openly accessible and well-documented software tools are usually used for the actual evaluation of the data, it is rather difficult to access the source data again later and extract it from the collected data series due to the pragmatic isolated solutions described above.
 
@@ -30,7 +30,7 @@ There are now good examples where such mass data series can be stored in a forma
 
 However, data sampled in great detail over time, such as environmental audio data, has special requirements, as this data is usually not fed to AI applications as a pure data series, but is selected and pre-processed in pre-processing phases and sometimes converted into completely different mathematical spaces. All the more so if metadata containing more information than a simple singular attribute for a sound data series over a specific time range is also recorded in parallel.
 
-This project is intended to address precisely this specificity in order to ensure the implementation of ‘good scientific practice’ (publication of source data in parallel with the publication of results obtained from it) for scientific data series with the content character described above, but also to provide working groups with limited resources with tools for data structuring in addition to the analysis tools that are usually available.
+This project is intended to address precisely this specificity in order to ensure the implementation of ‘good scientific practice’ (publication of reusable source data in parallel with the publication of results obtained from it) for scientific data series with the content character described above, but also to provide working groups with limited resources with tools for data structuring in addition to the analysis tools that are usually available.
 
 ### What is the right data format for audio and meta data?
 
@@ -38,7 +38,7 @@ First of all: This project specialises in sound records. Recordings of all other
 
 > **Opensoundscape is the leading Python project for processing environmental audio data.**
 
-### Images as meta or main data
+### Images or videos as meta or main data
 
 With regard to the question of metadata, image data plays a special role, however, since it can also be available as mass data and, in the context of audio data, it must also undergo similarly complex recognition algorithms. For this reason, it is planned at a later point in time to also organise image data within this framework in a comparable way and to organise it together with audio data in a common database.
 
@@ -46,7 +46,7 @@ With regard to the question of metadata, image data plays a special role, howeve
 
 > **The core question over all is, how we should save our data to be optimal usable over a long time?**
 
-Many people start by saving the recorded data in folder structures on their hard drive in the use cases considered here. The data is therefore stored in a tree-like structure. Alternatively, you could also store all the data in a single level and enter all the context information about how this data is related in tables. You can certainly do that. And supporters of SQL databases will do just that and possibly even enter the source data itself in special tables whose columns are defined as a so-called blob data type, where the raw data is copied into. These so-called relational databases are not a bad choice for pure machine data processing in many cases, since they usually have numerous search and filter methods implemented. However, the ‘relations’ of the data become difficult to understand even with simple relationships without the aid of detailed documentation. You can also create groupings and hierarchies here, but these are not visible in the tables at first glance.
+Many people start by saving the recorded data in folder structures and good named files on their hard drive in the use cases considered here. The data is therefore stored in a tree-like structure. Alternatively, you could also store all the data in a single level and enter all the context information about how this data is related in tables. You can certainly do that. And supporters of SQL databases will do just that and possibly even enter the source data itself in special tables whose columns are defined as a so-called blob data type, where the raw data is copied into. These so-called relational databases are not a bad choice for pure machine data processing in many cases, since they usually have numerous search and filter methods implemented. However, the ‘relations’ of the data become difficult to understand even with simple relationships without the aid of detailed documentation. You can also create groupings and hierarchies here, but these are not visible in the tables at first glance.
 
 The folder structure mentioned above is quite different. The way the data is organised is immediately apparent. The nature of the relationship between the items can often be inferred from the names of the folders. Metadata can also be easily classified as separate files in such a structure. And if the data is not too complexly interwoven and the file and folder names are meaningful, such a structure can be self-explanatory. If you also insert a few README files in the appropriate places to describe the final context and details of the data, you actually have a self-explanatory database with such a folder structure.
 
@@ -109,9 +109,10 @@ Designation regarding optional and mandatory attributes:
   [O] - optional
   [M] - mandatory
 
-Structure of the HDF5 file (part for original sound file data and metadata). Following, we
-decribe only our minimum "standard". Everybode can add any other components to the HDF5 file.
-This "standard" has to be implemented to can be found by the methodes of the module. However,
+Structure of the HDF5 file (part for original sound file data and metadata inclusing a concatenation
+of splittet sound files). 
+Following, we decribe only our minimum "standard". Everybode can add any other components to the HDF5
+file. This "standard" has to be implemented to can be found by the methodes of the module. However,
 additional elements within the file (groups, data sets or attributes) are possible and do 
 not pose any risk whatever in relation to the functioning of the module. The approach is 
 thus open to any extensions.
@@ -124,7 +125,7 @@ thus open to any extensions.
 |  |          #
 |  |          # Group for "Byte-Blobs" of the original and unchanged sound files, some
 |  |          # standardized and non-standardized meta data attributes, and all data needed
-|  |          # in order to gernerate the original sound files from its byte blobs again.
+|  |          # in order to generate the original sound files from its byte blobs again.
 |  |          # The samples are completely unchanged and not resampled and not decompressed
 |  |          # if the files were originally compressed. So: A truly pure byte-for-byte copy
 |  |          # of the sound file.
@@ -144,7 +145,8 @@ thus open to any extensions.
 |  |   |
 |  |   +–– original_sound_file_name # [M] attribute:str # without any path information
 |  |   |
-|  |   +–– ???NAME??? # [M] attribute:pickle-of-dict { "format": SoundFile.format, 
+|  |   +–– file_formate_description # [M] attribute:pickle-of-dict 
+|  |   |              #                              { "format": SoundFile.format, 
 |  |   |              #                                "sub-type": SoundFile.subtype, 
 |  |   |              #                                "endian": SoundFile.endian,
 |  |   |              #                                "sections": SoundFile.sections,
@@ -153,9 +155,11 @@ thus open to any extensions.
 |  |   |              # and to recreate the original sound files from this byte stream.
 |  |   +–– file_size_bytes # [M] attribute:int # size of the file by using 'os.stat(original
 |  |   |                                       # sound file).st_size'
-|  |   +–– content_hash # [M] attribute:int # Python hash value over all bytes of the file;
+|  |   +–– content_hash # [M] attribute:int # Python hash value over all bytes of the file;Coded as unicode. 
 |  |   |                                    # usable to make a check if file content of a
 |  |   |                                    # new import yet exists
+|  |   +–– device_id # [O] attribute:str    # An identifier for the device where sound was recorded.
+|  |   |                                    # Kind of device-coding is not standardized.
 |  |   +–– sampling_rate # [M] attribute:int # sampling rate in samples per second
 |  |   |
 |  |   +–– no_channels # [M] attribute:int # number of audio channels; common are 1 or 2; but
@@ -174,13 +178,24 @@ thus open to any extensions.
 |  |   |                          # The (single or multi channel) samples have to be equidistant, so that
 |  |   |                          # the the time stamp of the last sample is:
 |  |   |                          # start_time_dt + (no_samples_per_channel – 1)/sampling_rate
-|  |   +–– maximum_timeshift_percent # [M] attribute:float
+|  |   +–– maximum_timeshift_percent # [M/O] attribute:float
+|  |   |                             # – Not required if we have 'last_sample_time_dt'.
+|  |   |                             # – Mandatory if we don't have 'last_sample_time_dt' and we want
+|  |   |                             #   to concatenate data sets to stream in group 'concatenations'.
 |  |   |                             # This value is important for the continuity of individual files
 |  |   |                             # to form a continuous sound and is evaluated to summarise the
 |  |   |                             # files that immediately follow each other in time in the 
 |  |   |                             # ‘/concatenation’ group.
 |  |   |                             # Background and configuration of this value: Please, see the
 |  |   |                             # documentation, chapter "maximum_timeshift_percent".
+|  |   +–– last_sample_time_dt # [O] attribute:bytestream 
+|  |   |                             # Time stamp of the last sample as pickle.dump
+|  |   |                             # of a localizied Python datetime.datetime object.
+|  |   |                             # Note: The resolution is micro second.
+|  |   |                             # If the recording device has an exactly clock and can get the time
+|  |   |                             # stamp of the last sample in this data set, so this would be 
+|  |   |                             # greate for concatening. In this case we have exact parameters for
+|  |   |                             # and we can forego the 'maximum_timeshift_percent' value
 |  |   |
 |  |   |   # Following all file or user depending meta information in two versions:
 |  |   |   #    1) as Python dictionary (pickle serialized)
@@ -191,7 +206,7 @@ thus open to any extensions.
 |  |   +–– meta_dict #  [M] attribute:pickle-of-dict # Some user or case depending meta information about
 |  |   |                                        # file content. This includes audio file information like
 |  |   |                                        # artist, song name... 
-|  |   |                                        # This attribute is added my the import methodes. In case
+|  |   |                                        # This attribute is added by the import methodes. In case
 |  |   |                                        # there are no such meta information, this contains a
 |  |   |                                        # pickled empty dictionary.
 |  |   |
@@ -201,8 +216,8 @@ thus open to any extensions.
 |  |   |                                 # information values.
 |  |   :...          # and so on...
 |  |
-|  |+––/concatenations # group # [O] Contains one or more data sets that describe which sound file data sets
-|      |                       # can be chained together immediately in time.
+|  |+––/concatenations # group # [O] Contains one or more data sets that describe which sound file data
+|      |                       # sets can be chained together immediately in time.
 |      |                       # These data sets are generated by a separate method independing on the import
 |      |                       # of sound file data.
 |      |                       # The presence of the group /concatenations is optional. However, if it is
@@ -213,7 +228,6 @@ thus open to any extensions.
 |      |                       # /original_sound_files must be processed. However, if the group /concatenations
 |      |                       # is present, the sounds can be evaluated in a concatenated form by using
 |      |                       # the datasets in this group. 
-|      |                       # Methodes to use concatenated forms like single file are part of the module.
 |      |                       #
 |      |                       # How to use
 |      |                       # ----------
@@ -237,9 +251,7 @@ thus open to any extensions.
 |      |                       #    concatenation is allowed under these conditions, an entry is made in the data
 |      |                       #    set with the necessary correction parameters. If concatenation is not possible,
 |      |                       #    the previous data set under ‘/concatenations’ is closed and a new data set is
-|      |                       #    opened for the following audio file. This new data set is given the data set
-|      |                       #    number of the sound file (data set) from "/original_sound_files" with which this
-|      |                       #    new concatenation data set begins as the data set identifier.
+|      |                       #    opened for the following audio file. 
 |      |                       #
 |      |                       # 2) Evaluation (sound detection) with these concatenations.
 |      |                       #    Just as a method makes accessing the sound datasets in ‘/original_sound_files’
@@ -250,17 +262,22 @@ thus open to any extensions.
 |      |                       #    ‘/original_sound_files’, but they are in the correct order and, if necessary, 
 |      |                       #    time-corrected.
 |      |   
-|      +––1  # dataset # [M] The dataset number "1" in this case is identical to the data set number 1 in 
-|      |               #     "/original_sound_files" where the associated sample series starts.
-|      |               #     The coding of the association of consecutive sound data in this data set is
-|      |               #     documented separately.
-|      :  
-|      |  # (following: number '35' in this documentation is an example only)
-|      |––35 # dataset # [M] That's an example of a new sample series, starting with data set number "35" in
-|      |               #     "/original_sound_files" where the associated sample series starts.
-|      |               #     The coding of the association of consecutive sound data in this data set is
-|      |               #     documented separately.
-|      :...
+|      +––1 # stream list dataset # first concatened sound data stream (for details, see dataset 'n')
+|      |
+|      +––2 # stream list dataset # second concatened sound data stream (for details, see dataset 'n')
+|      :
+|      +––n # stream list dataset # last concatened sound data stream
+|         |         # Documentation of all groups 1 ... n:
+|         |         # type: int (Sound file dataset numbers from 'original_sound_files' describing a
+|         |         #            continuouse sound data stream by concatening the sound data of the file-
+|         |         #            blobs referenced by this numbers.)
+|         |         #            "Stream" means, that all the containing samples are recorded without breaks.
+|         |
+|         +–– time_scaling_percent # [O] attribute:float # In case of long time sound streams, we can take
+|                                  # into account the difference between the sampling oscillator missalignment
+|                                  # during recording and the really elapsed time during recording. Thats
+|                                  # a mean value over the full streaming time of the dataset. It can not be
+|                                  # correct any kind of jitter of the sampling osszillator, of course.
 |
 | # You are free to use all HDF5 elements to save additional meta information or additional primary information!
 ```
@@ -337,7 +354,14 @@ The aim is to allow the evaluation to be carried out in time slices that were in
 
 ### maximum_timeshift_percent
 
+---
+
+TODO: Add the alternativ last_sample_time_dt parameter into the documentation.
+
+---
+
 Audio data are sampled by an analogue-digital converter (ADC) in the sound device. The frequency of the sampling is specified by driver configurations. However, the sample clock is generated by an oscillator in the audio device that is not synchronised to the system clock and therefore not synchronised to an NTP server. The actual clock generated by the oscillator depends on the individual sound device (electronic component tolerances) and the temperature of the electronic components involved in the clock generation. Apart from the fact that there are also time shifts between the start time measured in the system time and the actual time of the first – and, if ultimately not even the exact system time of the start of the first sample is stored, but the timestamp of the creation of the sound file is used as a reference by storing the first sample, then it is clear that time differences arise here that are considerably greater than the time between two samples.
+
 If we later want to combine the samples of the consecutive files into one uninterrupted sound, for example, to let the chunks run through the analysis independently of the actual individual file beginnings and file ends across all samples, then we will naturally run into problems with the time alignment of the samples over longer uninterrupted recording periods.
 To restore the missing synchronicity of the ADC over long periods of time when recording with the actual system time (at the end the atomic time, via which the system synchronises itself using NTP), the samples must be corrected over long recording periods with regard to time. This results in new samples that remains synchronised with the running (NTP-synchronised) time over a longer period of time. If the resampling is not carried out, the frequencies in the sound will shift slightly because the playback clock does not correspond exactly to the recording clock. Since we know that the system clock has very good long-term stability due to the NTP-based mechanism, but that the ADC's sample clock does not, this means that the sound from the recorded samples has to be converted into a sound that corresponds to sample times that are very accurate and permanently corrected with atomic time using NTP.
 Attention: None of this applies if the entire recording system itself does not have NTP synchronisation. Here, too, the sample clock is slightly asynchronous with the actual time. However, the system time itself is also not particularly stable, which means that the time stamps are also created asynchronously with atomic time. Such conditions are present, for example, in microcontrollers. For example, the Audiomoth device. – Since there is basically no synchronicity in this case, it does no harm if data from such systems are also treated equally, like systems with system clock synchronisation to an atomic clock.
@@ -349,7 +373,7 @@ If you want to use the concatenation functionality in the HDF5 file under /origi
 
 # Project State
 
-Documentation ins progress. Since a pilot implementation was developed, these documentation will be used to convert these pilot implementation into a final implementation as defined here and now.
+Documentation in progress. Since a pilot implementation was developed, these documentation will be used to convert these pilot implementation into a final implementation as defined here and now.
 
 Development for a first version with a reasonable range of functions in progress (based on a pilot implementation). Image data are not yet considered.
 
