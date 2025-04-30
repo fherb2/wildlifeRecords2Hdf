@@ -1,6 +1,6 @@
 # wildlifeRecords2Hdf (Python module)
 
-**Python module for summarizing environmental sounds (or/and images) and metadata for scientific analysis.**
+**Python module for summarizing environmental sounds (or/and images) and metadata for scientific analysis by using HDF5 databases.**
 
 > **Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".**
 
@@ -376,6 +376,15 @@ If you want to use the concatenation functionality in the HDF5 file under /origi
 Documentation in progress. Since a pilot implementation was developed, these documentation will be used to convert these pilot implementation into a final implementation as defined here and now.
 
 Development for a first version with a reasonable range of functions in progress (based on a pilot implementation). Image data are not yet considered.
+
+# Development
+
+This project is managed by 
+
+* Poetry and
+* pyenv
+
+Use the *setup-dev-tooling.sh* to set up the full environment. The Python virtual environment will be placed inside the project path and the right standard Python version will be downloaded by this setup-script.
 
 # Licence
 

@@ -1,0 +1,20 @@
+[setup-dev-tooling]
+poetry-version = "1.8.2"
+
+[tool.poetry]
+name = "environmentalsoundhdf"
+version = "0.1.0"
+description = "Python module for summarizing environmental sounds (or/and images) and metadata for scientific analysis by using HDF5 databases."
+authors = ["Frank Herbrand <herbrand@gmx.de>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+tox = "^4.25.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
