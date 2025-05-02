@@ -1,5 +1,17 @@
 # wildlifeRecords2Hdf (Python module)
 
+## PROJECT IS MOVED in contend and place!
+
+Since Zarr data bases are much better for processing of date, also in HPC clusters, the development will be transferred to the use of Zarr. New project:
+
+[**ZarrWildlifeRecording Library for Python**](https://github.com/fherb2/zarr_wildlife_recording_py)
+
+Following documentation is historically. But the concepts are copied into the new project.
+
+---
+
+
+
 **Python module for summarizing environmental sounds (or/and images) and metadata for scientific analysis by using HDF5 databases.**
 
 > **Framework with methods for organising mass source data, in particular environmental sound recordings or wildlife camera images, including other recorded data that is directly related to this mass source data, in such a way that the data can be easily accessed at any later point in time. The magic words are "self-describing database".**
@@ -379,7 +391,7 @@ Development for a first version with a reasonable range of functions in progress
 
 # Development
 
-This project is managed by 
+This project is managed by
 
 * Poetry and
 * pyenv
